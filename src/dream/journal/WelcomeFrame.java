@@ -27,7 +27,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.JLabel labelTitle = new javax.swing.JLabel();
+        labelTitle = new javax.swing.JLabel();
         tfTitle = new javax.swing.JTextField();
         javax.swing.JButton btnOK = new javax.swing.JButton();
         javax.swing.JLabel labelEntry = new javax.swing.JLabel();
@@ -111,11 +111,12 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         tfTitle.setText("");
         textAreaEntry.setText("");
+        labelTitle.setText("Title");
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         String title = tfTitle.getText();
-        tfTitle.setText(title);
+        labelTitle.setText(title);  
         //save the dream entry to local storage
     }//GEN-LAST:event_btnOKActionPerformed
 
@@ -160,6 +161,7 @@ public class WelcomeFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelTitle;
     private javax.swing.JTextArea textAreaEntry;
     private javax.swing.JTextField tfTitle;
     // End of variables declaration//GEN-END:variables
