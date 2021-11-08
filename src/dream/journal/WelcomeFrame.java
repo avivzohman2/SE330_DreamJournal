@@ -117,7 +117,10 @@ public class WelcomeFrame extends javax.swing.JFrame {
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         String title = tfTitle.getText();
         labelTitle.setText(title);  
-        //save the dream entry to local storage
+        dreamTitles[0] = title; 
+        dreamEntries[0] = textAreaEntry.getText();
+        System.out.println(dreamTitles[0]);
+        System.out.println(dreamEntries[0]);
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void tfTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTitleActionPerformed
@@ -158,6 +161,9 @@ public class WelcomeFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private String[] dreamTitles = new String[10];
+    private String[] dreamEntries = new String[10]; 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
