@@ -5,6 +5,9 @@
  */
 package dream.journal;
 
+import java.awt.Color;
+import java.awt.Font;
+
 /**
  *
  * @author avivzohman
@@ -30,7 +33,7 @@ public class EntryFrame extends javax.swing.JFrame {
         labelTitle = new javax.swing.JLabel();
         tfTitle = new javax.swing.JTextField();
         javax.swing.JButton btnOK = new javax.swing.JButton();
-        javax.swing.JLabel labelEntry = new javax.swing.JLabel();
+        labelEntry = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textAreaEntry = new javax.swing.JTextArea();
         javax.swing.JButton btnClear = new javax.swing.JButton();
@@ -126,12 +129,19 @@ public class EntryFrame extends javax.swing.JFrame {
         tfTitle.setText("");
         textAreaEntry.setText("");
         labelTitle.setText("Title");
+        labelEntry.setText("Entry");
+        labelEntry.setForeground(Color.BLACK);
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         String title = tfTitle.getText();
+        String entry = textAreaEntry.getText(); 
         if (title.isEmpty()) { //FIXME
             labelTitle.setText("A Majestic Journey");
+        }
+        if (entry.isEmpty()) {
+            labelEntry.setText("Don't forget about your dream!");
+            labelEntry.setForeground(Color.red);
         }
         else {
             labelTitle.setText(title);  
@@ -195,6 +205,7 @@ public class EntryFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelEntry;
     private javax.swing.JLabel labelTitle;
     private javax.swing.JTextArea textAreaEntry;
     private javax.swing.JTextField tfTitle;
