@@ -35,6 +35,7 @@ public class JournalFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Journal");
 
         jLabel1.setText("jLabel1");
         jLabel1.addInputMethodListener(new java.awt.event.InputMethodListener() {
@@ -45,7 +46,7 @@ public class JournalFrame extends javax.swing.JFrame {
             }
         });
 
-        backButton.setText("Back");
+        backButton.setText("Home");
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
