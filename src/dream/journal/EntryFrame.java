@@ -12,7 +12,9 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -150,7 +152,6 @@ public class EntryFrame extends javax.swing.JFrame {
         if (title.isEmpty() && entry.isEmpty()) {
             labelEntry.setText("Don't forget about your dream!");
             labelEntry.setForeground(Color.red);
-//            JOptionPane.showMessageDialog(null, "Alert!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         //check if only the title is empty and then set default title
         else if (title.isEmpty()) { 
@@ -166,28 +167,37 @@ public class EntryFrame extends javax.swing.JFrame {
             labelTitle.setText(title);
             
             
-//            Connection conn; 
-            ResultSet rs; 
-            PreparedStatement psmt;
+             
+            
+            final String DB_URL = "jdbc:mysql://localhost:3306/dreamjournal";
+            final String USERNAME = "root";
+            final String PASSWORD = "password";
+            
+            Connection conn = null; 
+            PreparedStatement psmt = null;
+            ResultSet rs;
            
-            String query = "INSERT INTO repository (title, entry) VALUES (?,?);";
             
             try {
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
-                String connectionUrl = "jdbc:sqlserver://localhost;database=dreamjournal;integratedSecurity=true";  
-                Connection con = DriverManager.getConnection(connectionUrl);
-                psmt = con.prepareStatement(query); 
-                psmt.setString(1,title); 
-                psmt.setString(2, entry);
-                rs = psmt.executeQuery();
+                conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+                System.out.println("Connected to database successfully");
                 
-                if (rs.next()) {
+                String query = "INSERT INTO repository (title, entry) VALUES (?, ?)";
+                psmt = conn.prepareStatement(query); 
+                
+                psmt.setString(1, title);
+                psmt.setString(2, entry);
+                
+                
+                if (psmt.executeUpdate() == 1) {
                     JOptionPane.showMessageDialog(null, "Your dream is logged!");
-                }
+                } 
+
+
                 
             
             } catch (Exception e) {
-                System.out.println("Something went wrong");
+                JOptionPane.showMessageDialog(null, "Something went wrong!", "Whoopsies", JOptionPane.ERROR_MESSAGE);
             }
             
             
