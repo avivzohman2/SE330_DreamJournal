@@ -131,6 +131,7 @@ public class EntryFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -149,6 +150,7 @@ public class EntryFrame extends javax.swing.JFrame {
         if (title.isEmpty() && entry.isEmpty()) {
             labelEntry.setText("Don't forget about your dream!");
             labelEntry.setForeground(Color.red);
+//            JOptionPane.showMessageDialog(null, "Alert!", "Error", JOptionPane.ERROR_MESSAGE);
         }
         //check if only the title is empty and then set default title
         else if (title.isEmpty()) { 
@@ -240,7 +242,9 @@ public class EntryFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EntryFrame().setVisible(true);
+                EntryFrame entryFrame = new EntryFrame(); 
+                entryFrame.setVisible(true);
+         
             }
         });
     }

@@ -78,6 +78,7 @@ public class IntroFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void entryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryButtonActionPerformed
@@ -124,7 +125,10 @@ public class IntroFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new IntroFrame().setVisible(true);
+                IntroFrame introFrame = new IntroFrame(); 
+//                introFrame.setLocationRelativeTo(null);
+                introFrame.setVisible(true);
+//                new IntroFrame().setVisible(true);
             }
         });
     }
