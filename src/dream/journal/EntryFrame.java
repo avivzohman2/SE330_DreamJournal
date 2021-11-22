@@ -7,6 +7,15 @@ package dream.journal;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -70,7 +79,7 @@ public class EntryFrame extends javax.swing.JFrame {
             }
         });
 
-        backButton.setText("Back");
+        backButton.setText("Home");
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
@@ -95,27 +104,26 @@ public class EntryFrame extends javax.swing.JFrame {
                         .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(68, 68, 68)
                         .addComponent(btnClear)
-                        .addGap(133, 133, 133)))
+                        .addGap(133, 133, 133))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(backButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(backButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(labelTitle)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addComponent(labelEntry)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK)
                     .addComponent(btnClear))
@@ -136,15 +144,53 @@ public class EntryFrame extends javax.swing.JFrame {
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         String title = tfTitle.getText();
         String entry = textAreaEntry.getText(); 
-        if (title.isEmpty()) { //FIXME
-            labelTitle.setText("A Majestic Journey");
-        }
-        if (entry.isEmpty()) {
+        
+        //check whether entire dream page is empty and prompt user 
+        if (title.isEmpty() && entry.isEmpty()) {
             labelEntry.setText("Don't forget about your dream!");
             labelEntry.setForeground(Color.red);
         }
+        //check if only the title is empty and then set default title
+        else if (title.isEmpty()) { 
+            labelTitle.setText("A Majestic Journey");
+        }
+        //else title and entry are completed
+        //MYSQL 
+        //INSERT INTO DreamJournal VALUES(); 
+        
+        
+        //FIXME
         else {
-            labelTitle.setText(title);  
+            labelTitle.setText(title);
+            
+            
+//            Connection conn; 
+            ResultSet rs; 
+            PreparedStatement psmt;
+           
+            String query = "INSERT INTO repository (title, entry) VALUES (?,?);";
+            
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");  
+                String connectionUrl = "jdbc:sqlserver://localhost;database=dreamjournal;integratedSecurity=true";  
+                Connection con = DriverManager.getConnection(connectionUrl);
+                psmt = con.prepareStatement(query); 
+                psmt.setString(1,title); 
+                psmt.setString(2, entry);
+                rs = psmt.executeQuery();
+                
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Your dream is logged!");
+                }
+                
+            
+            } catch (Exception e) {
+                System.out.println("Something went wrong");
+            }
+            
+            
+            
+            
         }
  
         dreamTitles[0] = title; 
