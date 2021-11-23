@@ -158,57 +158,47 @@ public class EntryFrame extends javax.swing.JFrame {
             labelTitle.setText("A Majestic Journey");
         }
         //else title and entry are completed
-        //MYSQL 
-        //INSERT INTO DreamJournal VALUES(); 
-        
-        
-        //FIXME
+        //insert title and entry into dreamjournal database
         else {
-            labelTitle.setText(title);
-            
-            
-             
-            
-            final String DB_URL = "jdbc:mysql://localhost:3306/dreamjournal";
-            final String USERNAME = "root";
-            final String PASSWORD = "password";
-            
-            Connection conn = null; 
-            PreparedStatement psmt = null;
-            ResultSet rs;
-           
-            
+
             try {
+                //MySQL connection information
+                final String DB_URL = "jdbc:mysql://localhost:3306/dreamjournal";
+                final String USERNAME = "root";
+                final String PASSWORD = "password";
+
+                Connection conn = null; 
+                PreparedStatement psmt = null;
+                ResultSet rs;
+                //connect to dreamjournal database
                 conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
                 System.out.println("Connected to database successfully");
                 
+                //SQL query
                 String query = "INSERT INTO repository (title, entry) VALUES (?, ?)";
                 psmt = conn.prepareStatement(query); 
                 
                 psmt.setString(1, title);
                 psmt.setString(2, entry);
                 
-                
+                //successful insertion
                 if (psmt.executeUpdate() == 1) {
                     JOptionPane.showMessageDialog(null, "Your dream is logged!");
-                } 
+                    
+                    //navigate user to journal after successful dream log
+                    JournalFrame journalFrame = new JournalFrame(); 
+                    journalFrame.setVisible(true); //open JournalFrame
+                    setVisible(false); //close current frame
+                }
+                //close connection
+                conn.close();
 
-
-                
-            
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Something went wrong!", "Whoopsies", JOptionPane.ERROR_MESSAGE);
             }
-            
-            
-            
-            
+
         }
  
-        dreamTitles[0] = title; 
-        dreamEntries[0] = textAreaEntry.getText();
-        System.out.println(dreamTitles[0]);
-        System.out.println(dreamEntries[0]);
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void tfTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTitleActionPerformed
@@ -259,8 +249,7 @@ public class EntryFrame extends javax.swing.JFrame {
         });
     }
     
-    public String[] dreamTitles = new String[10];
-    public String[] dreamEntries = new String[10]; 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
