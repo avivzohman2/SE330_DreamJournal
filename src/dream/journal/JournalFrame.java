@@ -10,21 +10,59 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author avivzohman
  */
 public class JournalFrame extends javax.swing.JFrame {
+    
+    //MySQL connection information
+    final String DB_URL = "jdbc:mysql://localhost:3306/dreamjournal";
+    final String USERNAME = "root";
+    final String PASSWORD = "password";
+
+    Connection conn = null; 
+    Statement stmt = null; 
+    ResultSet rs; 
 
     /**
      * Creates new form JournalFrame
      */
     public JournalFrame() {
         initComponents();
+        try {
+            //connect to dreamjournal database
+            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+        } catch (SQLException ex) {
+            System.out.println("Connection error");
+        }
+        System.out.println("Connected to database successfully");
+        fetch();
+    }
+    
+    public void fetch() {
+        try {
+            //SQL query
+            String query = "SELECT * FROM repository;";
+            stmt = conn.createStatement(); 
+            rs = stmt.executeQuery(query);
+            
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            //close connection
+            conn.close();
+        
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
     }
 
     /**
@@ -64,7 +102,15 @@ public class JournalFrame extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -74,10 +120,10 @@ public class JournalFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backButton)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 307, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -85,9 +131,9 @@ public class JournalFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(backButton)
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -135,55 +181,7 @@ public class JournalFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    //MySQL connection information
-                    final String DB_URL = "jdbc:mysql://localhost:3306/dreamjournal";
-                    final String USERNAME = "root";
-                    final String PASSWORD = "password";
-
-                    Connection conn = null; 
-                    Statement stmt = null; 
-                    ResultSet rs;
-                    //connect to dreamjournal database
-                    conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-                    System.out.println("Connected to database successfully");
-
-                    //SQL query
-                    String query = "SELECT * FROM repository;";
-                    stmt = conn.createStatement(); 
-                    rs = stmt.executeQuery(query); 
-
-                    //Display the JournalFrame (the result set) if query is successful
-                    if (rs.next()) {
-                        
-                        
-
-                        
-//                        while(rs.next())
-//                        {
-//                            rs.getString(1); //or rs.getString("column name");
-//                        }
-
-
-//                        ResultSetMetaData rsmd = rs.getMetaData();
-//                        int columnsNumber = rsmd.getColumnCount();
-//                        while (rs.next()) {
-//                            for (int i = 1; i <= columnsNumber; i++) {
-//                                if (i > 1) System.out.print(",  ");
-//                                String columnValue = rs.getString(i);
-//                                System.out.print(columnValue + " " + rsmd.getColumnName(i));
-//                            }
-//                            System.out.println("");
-//                        }
-                        new JournalFrame().setVisible(true);
-                    }
-                    //close connection
-                    conn.close();
-
-                } catch (Exception e) {
-                    System.out.println("Something went wrong");
-                }
-                
+                new JournalFrame().setVisible(true);
             }
         });
     }
