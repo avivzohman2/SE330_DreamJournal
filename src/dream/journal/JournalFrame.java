@@ -14,8 +14,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -32,6 +34,9 @@ public class JournalFrame extends javax.swing.JFrame {
     Connection conn = null; 
     Statement stmt = null; 
     ResultSet rs; 
+    
+    //ShowData instance to display isolated row information
+    ShowData rowData = new ShowData(); 
 
     /**
      * Creates new form JournalFrame
@@ -111,6 +116,11 @@ public class JournalFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,6 +156,30 @@ public class JournalFrame extends javax.swing.JFrame {
         introFrame.setVisible(true); //open IntroFrame
         setVisible(false); //close current frame
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+        //code to display isolated view of single dream entry
+        
+        int index = jTable1.getSelectedRow();
+        
+        TableModel model = jTable1.getModel();
+        
+//        String id = model.getValueAt(index, 0).toString();
+        String date = model.getValueAt(index, 1).toString();
+        String title = model.getValueAt(index, 2).toString();
+        String entry = model.getValueAt(index, 3).toString();
+        
+        rowData.setVisible(true);
+        rowData.pack();
+        rowData.setLocationRelativeTo(null);
+        rowData.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+//        rowData.jTextField_Id.setText(id);
+        rowData.titleLabel.setText(title);
+        rowData.dateLabel.setText(date);
+        rowData.entryTextArea.setText(entry);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
