@@ -42,8 +42,11 @@ public class ShowData extends javax.swing.JFrame {
         dateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         dateLabel.setText("Date");
 
+        entryTextArea.setEditable(false);
         entryTextArea.setColumns(20);
+        entryTextArea.setLineWrap(true);
         entryTextArea.setRows(5);
+        entryTextArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane1.setViewportView(entryTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

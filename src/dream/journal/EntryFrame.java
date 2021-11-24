@@ -195,7 +195,7 @@ public class EntryFrame extends javax.swing.JFrame {
                 
                 //successful insertion
                 if (psmt.executeUpdate() == 1) {
-                    JOptionPane.showMessageDialog(null, "Your dream is logged!");
+                    JOptionPane.showMessageDialog(null, "Your dream is logged!", "Yippie!", JOptionPane.PLAIN_MESSAGE);
                     
                     //navigate user to journal after successful dream log
                     JournalFrame journalFrame = new JournalFrame(); 
