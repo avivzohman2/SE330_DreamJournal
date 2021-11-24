@@ -150,12 +150,23 @@ public class EntryFrame extends javax.swing.JFrame {
         
         //check whether entire dream page is empty and prompt user 
         if (title.isEmpty() && entry.isEmpty()) {
-            labelEntry.setText("Don't forget about your dream!");
-            labelEntry.setForeground(Color.red);
+            JOptionPane.showMessageDialog(null, "Hold your horses! Don't forget your dream!", "Whoopsies", JOptionPane.ERROR_MESSAGE);
         }
-        //check if only the title is empty and then set default title
+        //check if only the title is empty 
         else if (title.isEmpty()) { 
-            labelTitle.setText("A Majestic Journey");
+            JOptionPane.showMessageDialog(null, "Dont' forget your title!", "Whoopsies", JOptionPane.ERROR_MESSAGE);
+        }
+        //check if entry is empty
+        else if (entry.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Don't forget your entry!", "Whoopsies", JOptionPane.ERROR_MESSAGE);
+        }
+        //check if title matches SQL 30 character constraint
+        else if (title.length() > 30) {
+            JOptionPane.showMessageDialog(null, "Title cannot exceed 30 characters", "Whoopsies", JOptionPane.ERROR_MESSAGE);
+        }
+        //check if title matches SQL TINYTEXT datatype
+        else if (entry.length() > 255) {
+            JOptionPane.showMessageDialog(null, "Entry cannot exceed 255 characters", "Whoopsies", JOptionPane.ERROR_MESSAGE);
         }
         //else title and entry are completed
         //insert title and entry into dreamjournal database
@@ -178,8 +189,9 @@ public class EntryFrame extends javax.swing.JFrame {
                 String query = "INSERT INTO repository (title, entry) VALUES (?, ?)";
                 psmt = conn.prepareStatement(query); 
                 
-                psmt.setString(1, title);
+                psmt.setString(1, title); 
                 psmt.setString(2, entry);
+                
                 
                 //successful insertion
                 if (psmt.executeUpdate() == 1) {
