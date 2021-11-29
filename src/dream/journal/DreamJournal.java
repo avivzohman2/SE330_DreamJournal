@@ -4,9 +4,6 @@
  * and open the template in the editor.
  */
 package dream.journal;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -19,6 +16,7 @@ public class DreamJournal {
      */
      
     public static void main(String[] args) {
+        System.out.println("Launching Dream Journal!");
         IntroFrame introFrame = new IntroFrame();
         introFrame.setVisible(true);
     }
