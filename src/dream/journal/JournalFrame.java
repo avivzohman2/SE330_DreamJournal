@@ -47,7 +47,7 @@ public class JournalFrame extends javax.swing.JFrame {
             //connect to dreamjournal database
             conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
         } catch (SQLException ex) {
-            System.out.println("Connection error");
+            JOptionPane.showMessageDialog(null, "Connection Error", "Whoopsies", JOptionPane.ERROR_MESSAGE);
         }
         System.out.println("Connected to database successfully");
         fetch();
